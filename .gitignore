@@ -1,0 +1,33 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+build/
+*.pdb
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE folders
+.vs/
+.vscode/
+
+# NuGet
+packages/
+*.nupkg
+.nuget/
+
+# Temporary files
+*.cache
+*.tmp
+*~
+*.log
+_ReSharper*/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
