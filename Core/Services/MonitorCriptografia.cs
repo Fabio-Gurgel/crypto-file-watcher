@@ -43,13 +43,13 @@ namespace FileCryptoApp.Core.Services
             try
             {
                 string nomeArquivo = _gerenciadorArquivos.ObterNomeArquivo(arquivo);
-                string tempFile = _gerenciadorArquivos.CriarArquivoTemporario();
-                string arquivoSaida = Path.Combine(_config.CaminhoArquivosCriptografadosGerados, nomeArquivo + ".encrypted");
-                string arquivoFinal = Path.Combine(_config.CaminhoArquivosCriptografadosFinalizados, nomeArquivo);
+                string arquivoTemporario = _gerenciadorArquivos.CriarArquivoTemporario();
+                string caminhoFinalDoArquivoCriptografado = Path.Combine(_config.CaminhoArquivosCriptografadosGerados, nomeArquivo + ".encrypted");
+                string caminhoFinalDoArquivoOriginal = Path.Combine(_config.CaminhoArquivosCriptografadosFinalizados, nomeArquivo);
 
-                _criptografiaService.CriptografarArquivo(arquivo, tempFile);
-                _gerenciadorArquivos.MoverArquivo(tempFile, arquivoSaida);
-                _gerenciadorArquivos.MoverArquivo(arquivo, arquivoFinal);
+                _criptografiaService.CriptografarArquivo(arquivo, arquivoTemporario);
+                _gerenciadorArquivos.MoverArquivo(arquivoTemporario, caminhoFinalDoArquivoCriptografado);
+                _gerenciadorArquivos.MoverArquivo(arquivo, caminhoFinalDoArquivoOriginal);
 
                 Console.WriteLine($"Arquivo criptografado: {nomeArquivo}");
             }

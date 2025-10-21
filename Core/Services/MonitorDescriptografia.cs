@@ -43,13 +43,13 @@ namespace FileCryptoApp.Core.Services
             try
             {
                 string nomeArquivo = _gerenciadorArquivos.ObterNomeArquivo(arquivo);
-                string tempFile = _gerenciadorArquivos.CriarArquivoTemporario();
-                string arquivoSaida = Path.Combine(_config.CaminhoArquivosDescriptografadosGerados, nomeArquivo.Replace(".encrypted", ""));
-                string arquivoFinal = Path.Combine(_config.CaminhoArquivosDescriptografadosFinalizados, nomeArquivo);
+                string arquivoTemporario = _gerenciadorArquivos.CriarArquivoTemporario();
+                string caminhoFinalDoArquivoDescriptografado = Path.Combine(_config.CaminhoArquivosDescriptografadosGerados, nomeArquivo.Replace(".encrypted", ""));
+                string caminhoFinalDoArquivoOriginal = Path.Combine(_config.CaminhoArquivosDescriptografadosFinalizados, nomeArquivo);
 
-                _criptografiaService.DescriptografarArquivo(arquivo, tempFile);
-                _gerenciadorArquivos.MoverArquivo(tempFile, arquivoSaida);
-                _gerenciadorArquivos.MoverArquivo(arquivo, arquivoFinal);
+                _criptografiaService.DescriptografarArquivo(arquivo, arquivoTemporario);
+                _gerenciadorArquivos.MoverArquivo(arquivoTemporario, caminhoFinalDoArquivoDescriptografado);
+                _gerenciadorArquivos.MoverArquivo(arquivo, caminhoFinalDoArquivoOriginal);
 
                 Console.WriteLine($"Arquivo descriptografado: {nomeArquivo}");
             }

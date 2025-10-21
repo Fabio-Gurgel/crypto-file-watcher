@@ -11,15 +11,15 @@ namespace FileCryptoApp.Core.Services
             0x25, 0x26, 0x27, 0x28, 0x29, 0x30, 0x31, 0x32
         };
 
-        public void CriptografarArquivo(string arquivoEntrada, string arquivoSaida)
+        public void CriptografarArquivo(string arquivoOriginal, string arquivoTemporarioASerSalvo)
         {
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = _chaveAES;
                 aesAlg.GenerateIV();
 
-                using (FileStream fsInput = new FileStream(arquivoEntrada, FileMode.Open))
-                using (FileStream fsEncrypted = new FileStream(arquivoSaida, FileMode.Create))
+                using (FileStream fsInput = new FileStream(arquivoOriginal, FileMode.Open))
+                using (FileStream fsEncrypted = new FileStream(arquivoTemporarioASerSalvo, FileMode.Create))
                 {
                     fsEncrypted.Write(aesAlg.IV, 0, aesAlg.IV.Length);
 
@@ -32,13 +32,13 @@ namespace FileCryptoApp.Core.Services
             }
         }
 
-        public void DescriptografarArquivo(string arquivoEntrada, string arquivoSaida)
+        public void DescriptografarArquivo(string arquivoOriginal, string arquivoTemporarioASerSalvo)
         {
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = _chaveAES;
 
-                using (FileStream fsInput = new FileStream(arquivoEntrada, FileMode.Open))
+                using (FileStream fsInput = new FileStream(arquivoOriginal, FileMode.Open))
                 {
                     byte[] iv = new byte[16];
                     fsInput.Read(iv, 0, 16);
@@ -46,7 +46,7 @@ namespace FileCryptoApp.Core.Services
 
                     using (CryptoStream cs = new CryptoStream(fsInput,
                         aesAlg.CreateDecryptor(), CryptoStreamMode.Read))
-                    using (FileStream fsDecrypted = new FileStream(arquivoSaida, FileMode.Create))
+                    using (FileStream fsDecrypted = new FileStream(arquivoTemporarioASerSalvo, FileMode.Create))
                     {
                         cs.CopyTo(fsDecrypted);
                     }
